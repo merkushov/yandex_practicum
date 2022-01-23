@@ -1,0 +1,18 @@
+services:
+  s4_movie_api:
+    build:
+      context: ../../../
+      dockerfile: devops/docker/s4_movie_api/Dockerfile
+      # args:
+      #   uid: ${HOST_UID}
+      #   gid: ${HOST_GID}
+      target: develop
+    container_name: yp_api
+    user: "fastapi"
+    restart: always
+    env_file:
+      - ../../.s4_movie_es.env
+      - ../../.s4_movie_redis.env
+      - ../../.s4_movie_api.env
+      - ../../.dev.env
+    

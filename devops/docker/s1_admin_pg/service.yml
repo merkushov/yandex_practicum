@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  s1_admin_pg:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: yp_s1_admin_pg
+    restart: always
+    env_file:
+      - ../../.s1_admin_pg.env
+    
+    # тома инклюдятся через docker-compose -f docker-compose._volumes.yml
+    volumes:
+      - yp_s1_admin_pg_data:/var/lib/postgresql/data

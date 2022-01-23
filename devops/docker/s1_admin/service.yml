@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  s1_admin:
+    build:
+      context: ../../../
+      dockerfile: devops/docker/s1_admin/Dockerfile
+      # args:
+      #   uid: ${HOST_UID}
+      #   gid: ${HOST_GID}
+    container_name: yp_s1_admin
+    restart: always
+    user: "ticket_man"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    env_file:
+      - ../../.s1_admin_pg.env
+      - ../../.s1_admin.env
+      - ../../.dev.env
+
+    # тома инклюдятся через docker-compose -f docker-compose._volumes.yml
+    volumes:
+      - ../../../services/s1_admin/movies_admin:/usr/src/app
+      - yp_s1_admin_static_volume:/usr/src/app/static

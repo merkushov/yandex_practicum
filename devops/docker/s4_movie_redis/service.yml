@@ -1,0 +1,8 @@
+services:
+  s4_movie_redis:
+    image: redis:6.2.5-alpine
+    container_name: yp_s4_movie_redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - yp_s4_movie_redis_data:/data
+    

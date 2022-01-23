@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  s4_movie_es:
+    image: elasticsearch:7.14.0
+    container_name: yp_s4_movie_es
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - yp_s4_movie_es_data:/usr/share/elsticsearch/data

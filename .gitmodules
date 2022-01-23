@@ -1,0 +1,12 @@
+[submodule "services/s1_admin"]
+	path = services/s1_admin
+	url = git@github.com:merkushov/Admin_panel_sprint_2.git
+[submodule "services/s3_etl"]
+	path = services/s3_etl
+	url = git@github.com:merkushov/ETL.git
+[submodule "services/s4_movie_api"]
+	path = services/s4_movie_api
+	url = git@github.com:merkushov/Async_API_sprint_2.git
+[submodule "services/s5_auth_api"]
+	path = services/s5_auth_api
+	url = git@github.com:merkushov/Auth_sprint_2.git
