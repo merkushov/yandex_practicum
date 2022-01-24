@@ -10,3 +10,6 @@
 [submodule "services/s5_auth_api"]
 	path = services/s5_auth_api
 	url = git@github.com:merkushov/Auth_sprint_2.git
+[submodule "services/s2_nginx"]
+	path = services/s2_nginx
+	url = git@github.com:merkushov/yp_nginx.git

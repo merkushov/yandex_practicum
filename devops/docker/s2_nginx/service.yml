@@ -1,0 +1,12 @@
+services:
+  s2_nginx:
+    build:
+      context: ../../../
+      dockerfile: devops/docker/s2_nginx/Dockerfile
+    container_name: yp_s2_nginx
+    volumes:
+      - yp_s1_admin_static_volume:/usr/src/app/static
+    ports:
+      - "80:80"
+    env_file:
+      - ../../.s2_nginx.env
