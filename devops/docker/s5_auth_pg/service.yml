@@ -1,0 +1,16 @@
+services:
+  s5_auth_pg:
+    build:
+      context: ../../../
+      dockerfile: devops/docker/s5_auth_pg/Dockerfile
+    container_name: yp_s5_auth_pg
+    restart: always
+    env_file:
+      - ../../.s5_auth_pg.env
+    volumes:
+      - yp_s5_auth_pg_data:/var/lib/postgresql/data
+
+      # скрипт создания нескольких БД в одном контейнере
+      - ../../../devops/docker/s5_auth_pg/docker-postgresql-multiple-databases.sh:/docker-entrypoint-initdb.d/docker-postgresql-multiple-databases.sh
+    ports:
+      - "5432:5432"

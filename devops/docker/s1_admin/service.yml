@@ -15,7 +15,6 @@ services:
     env_file:
       - ../../.s1_admin_pg.env
       - ../../.s1_admin.env
-      - ../../.dev.env
 
     # тома инклюдятся через docker-compose -f docker-compose._volumes.yml
     volumes:

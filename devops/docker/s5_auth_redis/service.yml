@@ -1,0 +1,12 @@
+services:
+  s5_auth_redis:
+    image: redis:6.2.5-alpine
+    container_name: yp_s5_auth_redis
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - yp_s5_auth_redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - yp_network

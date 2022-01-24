@@ -14,5 +14,4 @@ services:
       - ../../.s4_movie_es.env
       - ../../.s4_movie_redis.env
       - ../../.s4_movie_api.env
-      - ../../.dev.env
     

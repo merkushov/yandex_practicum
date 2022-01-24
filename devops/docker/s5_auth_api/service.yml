@@ -1,0 +1,16 @@
+services:
+  s5_auth_api:
+    build:
+      context: ../../../
+      dockerfile: devops/docker/s5_auth_api/Dockerfile
+      # args:
+      #   uid: ${HOST_UID}
+      #   gid: ${HOST_GID}
+      target: develop
+    container_name: yp_s5_auth_api
+    user: "doorman"
+    restart: always
+    env_file:
+      - ../../.s5_auth_pg.env
+      - ../../.s5_auth_redis.env
+      - ../../.s5_auth_api.env

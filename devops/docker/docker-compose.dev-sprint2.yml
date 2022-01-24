@@ -9,6 +9,8 @@ services:
     extends:
       file: s1_admin/docker-compose.yml
       service: s1_admin
+    env_file:
+      - ../../.dev.env
     depends_on:
       - s1_admin_pg
     networks:
