@@ -10,11 +10,12 @@ services:
       file: s5_auth_api/service.yml
       service: s5_auth_api
     build:
-      # args:
-      #   uid: ${HOST_UID}
-      #   gid: ${HOST_GID}
+      args:
+        uid: ${HOST_UID}
+        gid: ${HOST_GID}
       target: develop
     command: ["flask", "run", "--host=0.0.0.0"]
+    # command: ["tail", "-f", "/dev/null"]
     volumes:
       - ../../services/s5_auth_api:/usr/src/auth_app
     env_file:
