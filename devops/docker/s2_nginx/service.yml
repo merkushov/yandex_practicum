@@ -1,12 +1,35 @@
 services:
-  s2_nginx:
+  s2_nginx_base:
     build:
       context: ../../../
       dockerfile: devops/docker/s2_nginx/Dockerfile
     container_name: yp_s2_nginx
-    volumes:
-      - yp_s1_admin_static_volume:/usr/src/app/static
     ports:
       - "80:80"
     env_file:
       - ../../.s2_nginx.env
+
+  s2_nginx_dev:
+    extends:
+      file: service.yml
+      service: s2_nginx_base
+    volumes:
+      - yp_s1_admin_static_volume:/usr/src/app/static
+      - ../../../services/s2_nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../../../services/s2_nginx/config/templates:/etc/nginx/templates
+    env_file:
+      - ../../.dev.env
+  
+  s2_nginx_test:
+    extends:
+      file: service.yml
+      service: s2_nginx_base
+    env_file:
+      - ../../.test.env
+
+  s2_nginx_prod:
+    extends:
+      file: service.yml
+      service: s2_nginx_base
+    env_file:
+      - ../../.prod.env

@@ -1,5 +1,10 @@
 version: "3.9"
 
+x-networks:
+  &default-networks
+  networks:
+  - yp_network
+
 networks:
   yp_network:
     driver: bridge
@@ -8,31 +13,21 @@ services:
   s1_admin:
     extends:
       file: s1_admin/service.yml
-      service: s1_admin
-    env_file:
-      - ../.dev.env
+      service: s1_admin_dev
     depends_on:
       - s1_admin_pg
-    networks:
-      - yp_network
+    << : *default-networks
 
   s1_admin_pg:
     extends:
       file: s1_admin_pg/service.yml
       service: s1_admin_pg
-    networks:
-      - yp_network
+    << : *default-networks
 
   s2_nginx:
     extends:
       file: s2_nginx/service.yml
-      service: s2_nginx
-    env_file:
-      - ../.dev.env
-    volumes:
-      - ../../services/s2_nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ../../services/s2_nginx/config/templates:/etc/nginx/templates
+      service: s2_nginx_dev
     depends_on:
       - s1_admin
-    networks:
-      - yp_network
+    << : *default-networks

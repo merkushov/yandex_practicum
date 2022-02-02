@@ -1,5 +1,10 @@
 version: "3.9"
 
+x-networks:
+  &default-networks
+  networks:
+  - yp_network
+
 networks:
   yp_network:
     driver: bridge
@@ -8,36 +13,28 @@ services:
   s1_admin:
     extends:
       file: s1_admin/service.yml
-      service: s1_admin
-    env_file:
-      - ../.dev.env
+      service: s1_admin_dev
     depends_on:
       - s1_admin_pg
-    networks:
-      - yp_network
+    << : *default-networks
 
   s1_admin_pg:
     extends:
       file: s1_admin_pg/service.yml
       service: s1_admin_pg
-    networks:
-      - yp_network
+    << : *default-networks
 
   s4_movie_es:
     extends:
       file: s4_movie_es/service.yml
       service: s4_movie_es
-    networks:
-      - yp_network
+    << : *default-networks
 
   s3_etl:
     extends:
       file: s3_etl/service.yml
-      service: s3_etl
-    env_file:
-      - ../.dev.env
+      service: s3_etl_dev
     depends_on:
       - s1_admin_pg
       - s4_movie_es
-    networks:
-      - yp_network
+    << : *default-networks

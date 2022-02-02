@@ -1,18 +1,40 @@
 version: "3.9"
 
 services:
-  s3_etl:
+  s3_etl_base:
     build:
       context: ../../../
       dockerfile: devops/docker/s3_etl/Dockerfile
-      # args:
-      #   uid: ${HOST_UID}
-      #   gid: ${HOST_GID}
     container_name: yp_s3_etl
-    restart: always
     user: "delivery_man"
     command: ["python3", "etl.py"]
     env_file:
       - ../../.s1_admin_pg.env
       - ../../.s4_movie_es.env
       - ../../.s3_etl.env
+
+  s3_etl_dev:
+    extends:
+      file: service.yml
+      service: s3_etl_base
+    build:
+      args:
+        uid: ${HOST_UID}
+        gid: ${HOST_GID}
+    env_file:
+      - ../../.dev.env
+
+  s3_etl_test:
+    extends:
+      file: service.yml
+      service: s3_etl_base
+    env_file:
+      - ../../.test.env
+
+  s3_etl_prod:
+    extends:
+      file: service.yml
+      service: s3_etl_base
+    restart: always
+    env_file:
+      - ../../.prod.env

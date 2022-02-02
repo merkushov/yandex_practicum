@@ -52,11 +52,11 @@ setup:
 .PHONY: setup
 
 setup_stage:
-	@echo "Setup the stage"
+	@echo "Stage setup complete"
 .PHONY: stage_setup
 
 setup_stage_dev:	## настроить dev stage
-	@echo "Setup dev stage"
+	@echo "Setup $(STAGE)"
 	@make admin_pg/waiting_for_readiness
 	@make admin/init
 	@make movie_es/waiting_for_readiness
@@ -66,13 +66,13 @@ setup_stage_dev:	## настроить dev stage
 .PHONY: setup_stage_dev
 
 setup_stage_sprint2:	## настроить содержимое контейнеров для спринта 2
-	@echo "Setup sprint 2"
+	@echo "Setup $(STAGE)"
 	@make admin_pg/waiting_for_readiness
 	@make admin/init
 .PHONY: setup_stage_sprint2
 
 setup_stage_sprint3:	## настроить содержимое контейнеров для спринта 3
-	@echo "Setup sprint 3"
+	@echo "Setup $(STAGE)"
 	@make admin_pg/waiting_for_readiness
 	@make admin/init
 	@make movie_es/waiting_for_readiness
@@ -80,7 +80,7 @@ setup_stage_sprint3:	## настроить содержимое контейне
 .PHONY: setup_stage_sprint3
 
 setup_stage_sprint4:	## настроить содержимое контейнеров для спринта 4
-	@echo "Setup sprint 4"
+	@echo "Setup $(STAGE)"
 	@make admin_pg/waiting_for_readiness
 	@make admin/init
 	@make movie_es/waiting_for_readiness
@@ -88,7 +88,7 @@ setup_stage_sprint4:	## настроить содержимое контейне
 .PHONY: setup_stage_sprint4
 
 setup_stage_sprint6:	## настроить содержимое контейнеров для спринта 6
-	@echo "Setup sprint 6"
+	@echo "Setup $(STAGE)"
 	@make auth_pg/waiting_for_readiness
 	@make auth_api/init
 .PHONY: setup_stage_sprint6
