@@ -1,8 +1,23 @@
 services:
-  s4_movie_redis:
+  s4_movie_redis_base:
     image: redis:6.2.5-alpine
     container_name: yp_s4_movie_redis
     command: ["redis-server", "--appendonly", "yes"]
+  
+  s4_movie_redis_dev:
+    extends:
+      file: service.yml
+      service: s4_movie_redis_base
     volumes:
       - yp_s4_movie_redis_data:/data
     
+  s4_movie_redis_test:
+    extends:
+      file: service.yml
+      service: s4_movie_redis_base
+
+  s4_movie_redis_prod:
+    extends:
+      file: service.yml
+      service: s4_movie_redis_base
+    restart: always

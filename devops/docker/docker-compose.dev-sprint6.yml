@@ -21,11 +21,11 @@ services:
   s5_auth_pg:
     extends:
       file: s5_auth_pg/service.yml
-      service: s5_auth_pg
+      service: s5_auth_pg_dev
     << : *default-networks
 
   s5_auth_redis:
     extends:
       file: s5_auth_redis/service.yml
-      service: s5_auth_redis
+      service: s5_auth_redis_dev
     << : *default-networks

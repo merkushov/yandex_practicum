@@ -1,12 +1,16 @@
 services:
-  s5_auth_pg:
+  s5_auth_pg_base:
     build:
       context: ../../../
       dockerfile: devops/docker/s5_auth_pg/Dockerfile
     container_name: yp_s5_auth_pg
-    restart: always
     env_file:
       - ../../.s5_auth_pg.env
+
+  s5_auth_pg_dev:
+    extends:
+      file: service.yml
+      service: s5_auth_pg_base
     volumes:
       - yp_s5_auth_pg_data:/var/lib/postgresql/data
 
@@ -14,3 +18,14 @@ services:
       - ../../../devops/docker/s5_auth_pg/docker-postgresql-multiple-databases.sh:/docker-entrypoint-initdb.d/docker-postgresql-multiple-databases.sh
     ports:
       - "5432:5432"
+
+  s5_auth_pg_test:
+    extends:
+      file: service.yml
+      service: s5_auth_pg_base
+
+  s5_auth_pg_prod:
+    extends:
+      file: service.yml
+      service: s5_auth_pg_base
+    restart: always

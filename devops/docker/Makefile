@@ -40,6 +40,8 @@ else ifeq ($(STAGE), dev-sprint6)
 setup_stage: setup setup_stage_sprint6
 else ifeq ($(STAGE), dev)
 setup_stage: setup setup_stage_dev
+else ifeq ($(STAGE), test)
+setup_stage: setup setup_stage_test
 else
 setup_stage: no_stage_config
 endif
@@ -56,6 +58,16 @@ setup_stage:
 .PHONY: stage_setup
 
 setup_stage_dev:	## настроить dev stage
+	@echo "Setup $(STAGE)"
+	@make admin_pg/waiting_for_readiness
+	@make admin/init
+	@make movie_es/waiting_for_readiness
+	@make etl/init
+	@make auth_pg/waiting_for_readiness
+	@make auth_api/init
+.PHONY: setup_stage_dev
+
+setup_stage_test:	## настроить test stage
 	@echo "Setup $(STAGE)"
 	@make admin_pg/waiting_for_readiness
 	@make admin/init
@@ -107,9 +119,9 @@ env_setup:	## настройка переменных окружения для 
 	@cp ../env_example/s5_auth_api.env ../.s5_auth_api.env
 	@cp ../env_example/s5_auth_pg.env ../.s5_auth_pg.env
 	@cp ../env_example/s5_auth_redis.env ../.s5_auth_redis.env
-	@cp ../env_example/stage.dev.env ../.stage.dev.env
-	@cp ../env_example/stage.prod.env ../.stage.prod.env
-	@cp ../env_example/stage.test.env ../.stage.test.env
+	@cp ../env_example/stage.dev.env ../.dev.env
+	@cp ../env_example/stage.prod.env ../.prod.env
+	@cp ../env_example/stage.test.env ../.test.env
 
 	# сгенерировать рандомные пароли для PostgreSQL
 	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 42 | xargs -i sed -i -e 's/POSTGRES_PASSWORD=[a-zA-Z0-9]*/POSTGRES_PASSWORD={}/' -e 's/DB_PASSWORD=[a-zA-Z0-9]*/DB_PASSWORD={}/' ../.s1_admin_pg.env`

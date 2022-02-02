@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  s4_movie_es:
+  s4_movie_es_base:
     image: elasticsearch:7.14.0
     container_name: yp_s4_movie_es
     environment:
@@ -12,5 +12,21 @@ services:
       memlock:
         soft: -1
         hard: -1
+
+  s4_movie_es_dev:
+    extends:
+      file: service.yml
+      service: s4_movie_es_base
     volumes:
       - yp_s4_movie_es_data:/usr/share/elsticsearch/data
+
+  s4_movie_es_test:
+    extends:
+      file: service.yml
+      service: s4_movie_es_base
+    
+  s4_movie_es_prod:
+    extends:
+      file: service.yml
+      service: s4_movie_es_base
+    restart: always
