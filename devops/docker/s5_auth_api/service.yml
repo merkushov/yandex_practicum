@@ -21,6 +21,8 @@ services:
       target: develop
     command: ["flask", "run", "--host=0.0.0.0"]
     # command: ["tail", "-f", "/dev/null"]
+    ports:
+      - "5000:5000"
     volumes:
       - ../../../services/s5_auth_api:/usr/src/auth_app
     env_file:
