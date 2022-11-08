@@ -124,23 +124,23 @@ env_setup:	## настройка переменных окружения для 
 	@cp ../env_example/stage.test.env ../.test.env
 
 	# сгенерировать рандомные пароли для PostgreSQL
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 42 | xargs -i sed -i -e 's/POSTGRES_PASSWORD=[a-zA-Z0-9]*/POSTGRES_PASSWORD={}/' -e 's/DB_PASSWORD=[a-zA-Z0-9]*/DB_PASSWORD={}/' ../.s1_admin_pg.env`
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 42 | xargs -i sed -i -e 's/POSTGRES_PASSWORD=[a-zA-Z0-9]*/POSTGRES_PASSWORD={}/' -e 's/DB_PASSWORD=[a-zA-Z0-9]*/DB_PASSWORD={}/' ../.s5_auth_pg.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 42 | xargs -I '{}' sed -i '' -e 's/POSTGRES_PASSWORD=[a-zA-Z0-9]*/POSTGRES_PASSWORD={}/' -e 's/DB_PASSWORD=[a-zA-Z0-9]*/DB_PASSWORD={}/' ../.s1_admin_pg.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 42 | xargs -I '{}' sed -i '' -e 's/POSTGRES_PASSWORD=[a-zA-Z0-9]*/POSTGRES_PASSWORD={}/' -e 's/DB_PASSWORD=[a-zA-Z0-9]*/DB_PASSWORD={}/' ../.s5_auth_pg.env`
 
 	# сгенерировать рандомный пароль для суперпользователя в Django
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 10 | xargs -i sed -i 's/DJANGO_SUPERUSER_PASSWORD=[a-zA-Z0-9]*/DJANGO_SUPERUSER_PASSWORD={}/' ../.s1_admin.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 10 | xargs -I '{}' sed -i '' 's/DJANGO_SUPERUSER_PASSWORD=[a-zA-Z0-9]*/DJANGO_SUPERUSER_PASSWORD={}/' ../.s1_admin.env`
 
 	# сгенерировать рандомный SECRET_KEY
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -i sed -i 's/SECRET_KEY=[a-zA-Z0-9\-]*/SECRET_KEY={}/' ../.s1_admin.env`
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -i sed -i 's/SECRET_KEY=[a-zA-Z0-9\-]*/SECRET_KEY={}/' ../.s5_auth_api.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -I '{}' sed -i '' 's/SECRET_KEY=[a-zA-Z0-9\-]*/SECRET_KEY={}/' ../.s1_admin.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -I '{}' sed -i '' 's/SECRET_KEY=[a-zA-Z0-9\-]*/SECRET_KEY={}/' ../.s5_auth_api.env`
 
 	# сгенерировать рандомный JWT_SECRET_KEY
-	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -i sed -i 's/JWT_SECRET_KEY=[a-zA-Z0-9\-]*/JWT_SECRET_KEY={}/' ../.s5_auth_api.env`
+	`env LC_CTYPE=C tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 32 | xargs -I '{}' sed -i '' 's/JWT_SECRET_KEY=[a-zA-Z0-9\-]*/JWT_SECRET_KEY={}/' ../.s5_auth_api.env`
 
 	# установить HOST_UID = UID текущего пользователя. Это влияет на UID пользователя внутри контейнера.
 	# Нужно для совместимости прав доступа к сгенерированным файлам у хостового пользователя
-	`id -u | xargs -i sed -i 's/HOST_UID=.*/HOST_UID={}/' ../.dev.env`
-	`id -g | xargs -i sed -i 's/HOST_GID=.*/HOST_GID={}/' ../.dev.env`
+	`id -u | xargs -I '{}' sed -i '' 's/HOST_UID=.*/HOST_UID={}/' ../.dev.env`
+	`id -g | xargs -I '{}' sed -i '' 's/HOST_GID=.*/HOST_GID={}/' ../.dev.env`
 .PHONY: env_setup
 
 show_docker_compose:

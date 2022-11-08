@@ -1,4 +1,5 @@
 \.*.env
+.idea
 
 var/docker_volumes/s1_admin/static_volume/*
 var/docker_volumes/s1_admin_pg/data/*
