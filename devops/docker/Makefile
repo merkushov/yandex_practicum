@@ -24,6 +24,8 @@ DOCKER_AUTH_API=s5_auth_api
 DOCKER_AUTH_PG=s5_auth_pg
 DOCKER_AUTH_REDIS=s5_auth_redis
 
+OS := $(shell uname)
+
 help:	## список доступных команд для make
 	@grep -E '^[a-zA-Z0-9_\-\/]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 	@echo "(Other less used targets are available, open Makefile for details)"
@@ -139,8 +141,18 @@ env_setup:	## настройка переменных окружения для 
 
 	# установить HOST_UID = UID текущего пользователя. Это влияет на UID пользователя внутри контейнера.
 	# Нужно для совместимости прав доступа к сгенерированным файлам у хостового пользователя
-	`id -u | xargs -I '{}' sed -i '' 's/HOST_UID=.*/HOST_UID={}/' ../.dev.env`
-	`id -g | xargs -I '{}' sed -i '' 's/HOST_GID=.*/HOST_GID={}/' ../.dev.env`
+	# `id -u | xargs -I '{}' sed -i '' 's/HOST_UID=.*/HOST_UID={}/' ../.dev.env`
+	# `id -g | xargs -I '{}' sed -i '' 's/HOST_GID=.*/HOST_GID={}/' ../.dev.env`
+
+	# Хак! Я не знаю, как правильно сматчить GroupID между
+	# 	   MacOS (host) и Linux (docker os)
+	@if [[ $(OS) = 'Darwin' ]]; then \
+		`id -u | xargs -I '{}' sed -i '' 's/HOST_UID=.*/HOST_UID={}/' ../.env`; \
+		`sed -i '' 's/HOST_GID=.*/HOST_GID=61/' ../.env`; \
+	else \
+		`id -u | xargs -I '{}' sed -i '' 's/HOST_UID=.*/HOST_UID={}/' ../.env`; \
+		`id -g | xargs -I '{}' sed -i '' 's/HOST_GID=.*/HOST_GID={}/' ../.env`; \
+	fi
 .PHONY: env_setup
 
 show_docker_compose:
