@@ -18,7 +18,7 @@
 В несколько команд можно развернуть окружние в Докере и настроить его для разработки: создать пользователей, применить миграции, сконфигурировать хранилища и т.п. 
 
 ```
-git clone git@github.com:merkushov/yandex_practicum.git
+git clone --recurse-submodules git@github.com:merkushov/yandex_practicum.git
 cd yandex_practicum
 
 export STAGE=dev-sprint2
